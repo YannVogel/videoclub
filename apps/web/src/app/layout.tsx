@@ -1,16 +1,16 @@
 import type {Metadata} from "next"
 import Header from "@/components/Header"
+import Sidebar from "@/components/Sidebar"
 import "@/styles/panda.css"
 import {css} from "@styled-system/css"
 import ReactQueryProvider from "@/components/providers/ReactQueryProvider"
-import React from "react";
 
 export const metadata: Metadata = {
   title: "VidéoClub VHS",
   description: "Catalogue rétro VHS",
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="fr">
     <body
@@ -24,15 +24,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <Header />
       <div
         className={css({
-          maxW: "1200px",
-          mx: "auto",
-          w: "full",
+          display: "grid",
+          gridTemplateColumns: { base: "16rem 1fr", md: "18rem 1fr" },
+          gap: 0,
         })}
       >
-        {children}
+        <Sidebar />
+        <main
+          className={css({
+            maxW: "1200px",
+            w: "full",
+            px: 6,
+            py: 6,
+            mx: "auto",
+          })}
+        >
+          {children}
+        </main>
       </div>
     </ReactQueryProvider>
     </body>
     </html>
   )
 }
+
+export default RootLayout
