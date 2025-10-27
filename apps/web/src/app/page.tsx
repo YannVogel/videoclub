@@ -2,7 +2,7 @@
 
 import VhsCard from "@/components/VhsCard"
 import {mockVhs} from "@/mocks"
-import {css} from "../../styled-system/css"
+import {css} from "@styled-system/css"
 
 export default function HomePage() {
   return (

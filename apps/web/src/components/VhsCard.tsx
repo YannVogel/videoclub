@@ -1,8 +1,8 @@
 "use client"
 
 import {Vhs} from "@/models"
-import {css} from "../../styled-system/css"
-import {hstack, vstack} from "../../styled-system/patterns"
+import {css} from "@styled-system/css"
+import {hstack, vstack} from "@styled-system/patterns"
 
 type Props = {
   vhs: Vhs

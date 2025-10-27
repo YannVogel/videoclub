@@ -1,10 +1,15 @@
 import {defineConfig} from "@pandacss/dev"
 
-export const config = defineConfig({
+export default defineConfig({
+  // presets par défaut
   presets: ["@pandacss/preset-base", "@pandacss/preset-panda"],
-  include: [
-    "./src/app/**/*.{ts,tsx,js,jsx}",
-    "./src/components/**/*.{ts,tsx,js,jsx}"
-  ],
+
+  // IMPORTANT: tableau de globs
+  include: ["./src/**/*.{ts,tsx,js,jsx}"],
+
+  // vous pouvez filtrer si besoin
+  exclude: [],
+
+  // dossier de sortie généré par Panda
   outdir: "styled-system",
 })
