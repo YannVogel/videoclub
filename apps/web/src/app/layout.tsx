@@ -1,22 +1,17 @@
 import type {Metadata} from "next"
-import React, {ReactNode} from "react"
 import "@/styles/panda.css"
-import ReactQueryProvider from "@/app/providers/react-query"
-import MswLoader from "@/app/msw-loader"
+import React from "react";
 
 export const metadata: Metadata = {
   title: "VidéoClub VHS",
-  description: "Projet démo Next.js 16 façon vidéo-club des années 90",
+  description: "Catalogue rétro VHS",
 }
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
     <body>
-    <ReactQueryProvider>
-      {children}
-      <MswLoader />
-    </ReactQueryProvider>
+    {children}
     </body>
     </html>
   )
