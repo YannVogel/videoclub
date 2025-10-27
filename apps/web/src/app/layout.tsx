@@ -2,6 +2,8 @@ import type {Metadata} from "next"
 import Header from "@/components/Header"
 import "@/styles/panda.css"
 import {css} from "@styled-system/css"
+import ReactQueryProvider from "@/components/providers/ReactQueryProvider"
+import React from "react";
 
 export const metadata: Metadata = {
   title: "VidéoClub VHS",
@@ -18,16 +20,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         minH: "100vh",
       })}
     >
-    <Header />
-    <div
-      className={css({
-        maxW: "1200px",
-        mx: "auto",
-        w: "full",
-      })}
-    >
-      {children}
-    </div>
+    <ReactQueryProvider>
+      <Header />
+      <div
+        className={css({
+          maxW: "1200px",
+          mx: "auto",
+          w: "full",
+        })}
+      >
+        {children}
+      </div>
+    </ReactQueryProvider>
     </body>
     </html>
   )
