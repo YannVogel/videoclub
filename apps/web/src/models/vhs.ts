@@ -8,7 +8,7 @@ export const VhsSchema = z.object({
   genres: z.array(GenreEnum).default([]),
   synopsis: z.string().optional(),
   coverUrl: z.url(),
-  status: VhsStatusEnum.default("disponible"),
+  status: VhsStatusEnum.default("available"),
   createdAt: isoDate,
   updatedAt: isoDate,
 })
