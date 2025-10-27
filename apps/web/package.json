@@ -34,6 +34,7 @@
     "@storybook/addon-docs": "^9.1.15",
     "@storybook/addon-vitest": "^9.1.15",
     "@storybook/nextjs-vite": "^9.1.15",
+    "@tanstack/react-query-devtools": "^5.90.2",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
