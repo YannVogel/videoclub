@@ -21,5 +21,5 @@ export const GenreEnum = z.enum([
 ])
 export type Genre = z.infer<typeof GenreEnum>
 
-export const VhsStatusEnum = z.enum(["disponible", "louee", "en_retard", "perdue"])
+export const VhsStatusEnum = z.enum(['available', 'rented', 'overdue', 'lost'])
 export type VhsStatus = z.infer<typeof VhsStatusEnum>
