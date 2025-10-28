@@ -5,7 +5,14 @@ import { Customer } from '@/models';
 
 type Props = {
   children: (params: {
-    mutate: (data: Partial<Customer>) => void;
+    mutate: (
+      data: Partial<Customer>,
+      options?: {
+        onSuccess?: () => void;
+        onError?: (error: unknown) => void;
+        onSettled?: () => void;
+      },
+    ) => void;
     isPending: boolean;
     error: unknown;
   }) => ReactNode;
