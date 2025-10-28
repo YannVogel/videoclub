@@ -5,6 +5,7 @@ import { statusBadge } from '@/styles/statusBadge';
 import { statusLabel } from '@/utils';
 import { css, cva } from '@styled-system/css';
 import { hstack, vstack } from '@styled-system/patterns';
+import { VhsStatusEnum } from '@/models';
 
 type Props = { id: string };
 
@@ -166,7 +167,7 @@ const VhsDetails = ({ id }: Props) => {
 
               {/* Actions */}
               <div className={hstack({ gap: 3, pt: 2 })}>
-                {data.status === 'available' && (
+                {data.status === VhsStatusEnum.enum.available && (
                   <button
                     className={css({
                       px: 5,
@@ -189,7 +190,8 @@ const VhsDetails = ({ id }: Props) => {
                   </button>
                 )}
 
-                {(data.status === 'rented' || data.status === 'overdue') && (
+                {(data.status === VhsStatusEnum.enum.rented ||
+                  data.status === VhsStatusEnum.enum.overdue) && (
                   <button
                     className={css({
                       px: 5,
@@ -212,7 +214,7 @@ const VhsDetails = ({ id }: Props) => {
                   </button>
                 )}
 
-                {data.status === 'lost' && (
+                {data.status === VhsStatusEnum.enum.lost && (
                   <span
                     className={css({
                       color: 'red.400',
