@@ -1,25 +1,21 @@
-import {z} from "zod"
-import {idSchema, isoDate, isoDateNullable} from "./common"
+import { z } from 'zod';
+import { idSchema, isoDate } from './common';
+import { VhsSchema } from './vhs';
+import { CustomerSchema } from './customer';
 
 export const RentalSchema = z.object({
   id: idSchema,
-  vhsId: idSchema,
-  clientId: idSchema,
+  vhs: VhsSchema.or(z.string()),
+  customer: CustomerSchema.or(z.string()),
   rentedAt: isoDate,
-  dueAt: isoDate,
-  returnedAt: isoDateNullable,
-})
+  dueDate: isoDate,
+  returnedAt: isoDate.nullable().optional(),
+});
 
-export type Rental = z.infer<typeof RentalSchema>
+export type Rental = z.infer<typeof RentalSchema>;
 
-export const CreateRentalInput = RentalSchema.omit({
-  id: true,
-  returnedAt: true,
-})
-export type CreateRentalInput = z.infer<typeof CreateRentalInput>
-
-export const ReturnRentalInput = z.object({
-  id: idSchema,
-  returnedAt: isoDate,
-})
-export type ReturnRentalInput = z.infer<typeof ReturnRentalInput>
+export const CreateRentalInput = z.object({
+  vhsId: idSchema,
+  customerId: idSchema,
+});
+export type CreateRentalInput = z.infer<typeof CreateRentalInput>;

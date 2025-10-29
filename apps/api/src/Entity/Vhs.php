@@ -4,21 +4,26 @@ namespace App\Entity;
 
 use App\Repository\VhsRepository;
 use App\Enum\VhsStatus;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\Ulid;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: VhsRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class Vhs
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'ulid', unique: true)]
-    private ?Ulid $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[Groups(['rental:read'])]
+    private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Groups(['rental:read'])]
     private string $title;
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
@@ -46,9 +51,13 @@ class Vhs
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private \DateTimeImmutable $updatedAt;
 
+    #[ORM\OneToMany(mappedBy: 'vhs', targetEntity: Rental::class, cascade: ['remove'])]
+    private Collection $rentals;
+
     public function __construct()
     {
-        $this->id = new Ulid();
+        $this->id = Uuid::v7();
+        $this->rentals = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -64,8 +73,6 @@ class Vhs
     {
         $this->updatedAt = new \DateTimeImmutable();
     }
-
-    // ---------- Getters / Setters ----------
 
     public function getId(): string
     {
@@ -150,7 +157,32 @@ class Vhs
         return $this->updatedAt;
     }
 
-    // ---------- Serialization Helper ----------
+    /**
+     * @return Collection<int, Rental>
+     */
+    public function getRentals(): Collection
+    {
+        return $this->rentals;
+    }
+
+    public function addRental(Rental $rental): self
+    {
+        if (!$this->rentals->contains($rental)) {
+            $this->rentals[] = $rental;
+            $rental->setVhs($this);
+        }
+        return $this;
+    }
+
+    public function removeRental(Rental $rental): self
+    {
+        if ($this->rentals->removeElement($rental)) {
+            if ($rental->getVhs() === $this) {
+                $rental->setVhs(null);
+            }
+        }
+        return $this;
+    }
 
     /** @return array<string, mixed> */
     public function toArray(): array
@@ -162,7 +194,7 @@ class Vhs
             'genres' => $this->genres,
             'synopsis' => $this->synopsis,
             'coverUrl' => $this->coverUrl,
-            'status' => $this->status->value, // 👈 export en string
+            'status' => $this->status->value,
             'createdAt' => $this->createdAt->format(\DateTimeInterface::ATOM),
             'updatedAt' => $this->updatedAt->format(\DateTimeInterface::ATOM),
         ];

@@ -3,20 +3,26 @@
 namespace App\Entity;
 
 use App\Repository\CustomerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\Ulid;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 class Customer
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'ulid', unique: true)]
-    private ?Ulid $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[Groups(['rental:read'])]
+    private ?Uuid $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['rental:read'])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['rental:read'])]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 180, unique: true)]
@@ -28,15 +34,19 @@ class Customer
     #[ORM\Column(type: "datetime_immutable")]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Rental::class, cascade: ['remove'])]
+    private Collection $rentals;
+
     public function __construct()
     {
-        $this->id = new Ulid();
+        $this->id = Uuid::v7();
         $this->createdAt = new \DateTimeImmutable();
+        $this->rentals = new ArrayCollection();
     }
 
-    public function getId(): ?Ulid
+    public function getId(): string
     {
-        return $this->id;
+        return (string) $this->id;
     }
 
     public function getFirstName(): ?string
@@ -86,5 +96,32 @@ class Customer
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @return Collection<int, Rental>
+     */
+    public function getRentals(): Collection
+    {
+        return $this->rentals;
+    }
+
+    public function addRental(Rental $rental): self
+    {
+        if (!$this->rentals->contains($rental)) {
+            $this->rentals[] = $rental;
+            $rental->setCustomer($this);
+        }
+        return $this;
+    }
+
+    public function removeRental(Rental $rental): self
+    {
+        if ($this->rentals->removeElement($rental)) {
+            if ($rental->getCustomer() === $this) {
+                $rental->setCustomer(null);
+            }
+        }
+        return $this;
     }
 }
