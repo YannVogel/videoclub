@@ -75,17 +75,17 @@ class VhsController
         }
 
         try {
-            $status = VhsStatus::from($dto->status);
+            $status = VhsStatus::from($dto->getStatus());
         } catch (\ValueError) {
             return new JsonResponse(['error' => 'Invalid status'], 400);
         }
 
         $v = new Vhs();
-        $v->setTitle($dto->title);
-        $v->setYear($dto->year);
-        $v->setGenres($dto->genres);
-        $v->setSynopsis($dto->synopsis);
-        $v->setCoverUrl($dto->coverUrl);
+        $v->setTitle($dto->getTitle());
+        $v->setYear($dto->getYear());
+        $v->setGenres($dto->getGenres());
+        $v->setSynopsis($dto->getSynopsis());
+        $v->setCoverUrl($dto->getCoverUrl());
         $v->setStatus($status);
 
         $this->em->persist($v);
@@ -93,6 +93,7 @@ class VhsController
 
         return new JsonResponse($v->toArray(), 201);
     }
+
 
     // -------- UPDATE (PATCH) --------
     #[Route('/{id}', name: 'vhs_update', methods: ['PATCH'])]

@@ -1,32 +1,29 @@
-import {useMutation, useQueryClient} from "@tanstack/react-query"
-import {api} from "@/lib/api"
-import type {CreateVhsInput, Vhs} from "@/models"
-import React from "react"
+import { ReactNode } from 'react';
+import { UseMutateFunction, useMutation } from '@tanstack/react-query';
+import { api } from '@/lib/api';
+import { Vhs } from '@/models';
 
 type Props = {
-  children: (args: {
-    create: (payload: CreateVhsInput) => Promise<Vhs>
-    status: "idle" | "pending" | "success" | "error"
-    error: unknown
-  }) => React.ReactNode
-}
+  children: (params: {
+    mutate: UseMutateFunction<
+      unknown, // type de la donnée retournée (on s’en moque ici)
+      Error, // type d’erreur
+      Partial<Vhs>, // variables attendues (notre data)
+      unknown // contexte (facultatif)
+    >;
+    isPending: boolean;
+    error: unknown;
+  }) => ReactNode;
+};
 
-export default function VhsCreate({ children }: Props) {
-  const qc = useQueryClient()
-  const mut = useMutation({
-    mutationFn: (payload: CreateVhsInput) => api.post<Vhs>("/api/v1/vhs", payload),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["vhs", "list"] })
-    },
-  })
+export const VhsCreate = ({ children }: Props) => {
+  const { mutate, isPending, error } = useMutation<
+    unknown,
+    Error,
+    Partial<Vhs>
+  >({
+    mutationFn: (data: Partial<Vhs>) => api.post('/api/v1/vhs', data),
+  });
 
-  return (
-    <>
-      {children({
-        create: mut.mutateAsync,
-        status: mut.status,
-        error: mut.error,
-      })}
-    </>
-  )
-}
+  return <>{children({ mutate, isPending, error })}</>;
+};
