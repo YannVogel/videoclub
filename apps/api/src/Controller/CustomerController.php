@@ -19,7 +19,7 @@ class CustomerController extends AbstractController
         $customers = $repo->findAll();
 
         return $this->json(array_map(fn(Customer $c) => [
-            'id' => $c->getId(),
+            'id' => (string) $c->getId(),
             'firstName' => $c->getFirstName(),
             'lastName' => $c->getLastName(),
             'email' => $c->getEmail(),
