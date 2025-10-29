@@ -31,6 +31,7 @@ const VhsCard = ({ vhs }: Props) => {
           },
         })}
       >
+        {/* Cassette frame */}
         <div
           className={css({
             position: 'relative',
@@ -41,31 +42,50 @@ const VhsCard = ({ vhs }: Props) => {
             bg: 'black',
           })}
         >
+          {/* Jaquette */}
           <img
             src={vhs.coverUrl}
             alt={vhs.title}
             className={css({
               position: 'absolute',
-              inset: 0,
-              w: 'full',
-              h: 'full',
+              top: '27%',
+              left: '30%',
+              width: '50%',
+              height: '45%',
               objectFit: 'cover',
-              filter: 'saturate(1.05) contrast(1.05)',
-              transition: 'transform 250ms ease',
+              borderRadius: 'sm',
+              boxShadow: '0 0 8px rgba(0,0,0,0.5)',
+              zIndex: 2,
             })}
           />
-          <span
-            aria-hidden
+
+          {/* Cassette overlay */}
+          <img
+            src="/assets/vhs.png"
+            alt="Cassette VHS"
             className={css({
               position: 'absolute',
               inset: 0,
-              bgGradient: 'to-b',
-              gradientFrom: 'transparent',
-              gradientTo: 'rgba(0,0,0,0.55)',
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              zIndex: 1,
+              pointerEvents: 'none',
             })}
           />
-          <span className={statusBadge({ status: vhs.status })}>
-            {statusLabel[vhs.status]}
+
+          {/* Badge de statut au-dessus de tout */}
+          <span
+            className={css({
+              position: 'absolute',
+              top: 2,
+              left: 2,
+              zIndex: 3,
+            })}
+          >
+            <span className={statusBadge({ status: vhs.status })}>
+              {statusLabel[vhs.status]}
+            </span>
           </span>
         </div>
 
