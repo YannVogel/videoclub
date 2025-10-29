@@ -16,7 +16,7 @@ type Props = {
   }) => ReactNode;
 };
 
-export const VhsCreate = ({ children }: Props) => {
+const VhsCreate = ({ children }: Props) => {
   const { mutate, isPending, error } = useMutation<
     unknown,
     Error,
@@ -27,3 +27,5 @@ export const VhsCreate = ({ children }: Props) => {
 
   return <>{children({ mutate, isPending, error })}</>;
 };
+
+export default VhsCreate;

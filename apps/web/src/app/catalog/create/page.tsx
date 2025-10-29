@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getMovieDetails, searchMovies } from '@/lib/external/omdb';
-import { VhsCreate } from '@/components/api/VhsCreate';
+import VhsCreate from '@/components/api/VhsCreate';
 import { css } from '@styled-system/css';
 import { hstack, vstack } from '@styled-system/patterns';
 import { normalizeGenres } from '@/lib/utils/normalizeGenres';
