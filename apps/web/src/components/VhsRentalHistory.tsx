@@ -3,6 +3,8 @@
 import { RentalListByVhs } from '@/components/api/rentals';
 import { css } from '@styled-system/css';
 import { hstack, vstack } from '@styled-system/patterns';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 type Props = {
   vhsId: string;
@@ -65,25 +67,21 @@ const VhsRentalHistory = ({ vhsId }: Props) => {
               })}
             >
               {data.map((rental) => {
-                // TODO dates à formater
-                const rentedAt = '';
-                const dueDate = '';
-                const returnedAt = '';
-                // const rentedAt = format(
-                //   new Date(rental.rentedAt),
-                //   'dd MMM yyyy',
-                //   { locale: fr },
-                // );
-                // const dueDate = format(
-                //   new Date(rental.dueDate),
-                //   'dd MMM yyyy',
-                //   { locale: fr },
-                // );
-                // const returnedAt = rental.returnedAt
-                //   ? format(new Date(rental.returnedAt), 'dd MMM yyyy', {
-                //       locale: fr,
-                //     })
-                //   : null;
+                const rentedAt = format(
+                  new Date(rental.rentedAt),
+                  'dd MMM yyyy',
+                  { locale: fr },
+                );
+                const dueDate = format(
+                  new Date(rental.dueDate),
+                  'dd MMM yyyy',
+                  { locale: fr },
+                );
+                const returnedAt = rental.returnedAt
+                  ? format(new Date(rental.returnedAt), 'dd MMM yyyy', {
+                      locale: fr,
+                    })
+                  : null;
 
                 return (
                   <div
