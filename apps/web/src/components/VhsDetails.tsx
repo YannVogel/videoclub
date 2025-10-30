@@ -117,6 +117,10 @@ const VhsDetails = ({ id }: Props) => {
                   </p>
                 )}
 
+                {data.status !== VhsStatusEnum.enum.lost && (
+                  <VhsMarkLostButton vhsId={data.id} />
+                )}
+
                 {data.genres?.length > 0 && (
                   <div className={hstack({ gap: 2, flexWrap: 'wrap' })}>
                     {data.genres.map((g) => (
@@ -166,16 +170,12 @@ const VhsDetails = ({ id }: Props) => {
                   {data.synopsis}
                 </p>
               )}
-
-              {/* Actions */}
-              <div className={hstack({ gap: 3, pt: 2 })}>
-                {data.status !== VhsStatusEnum.enum.lost && (
-                  <VhsMarkLostButton vhsId={data.id} />
-                )}
-                {data.status === VhsStatusEnum.enum.available && (
-                  <RentalCreateForm vhs={data} />
-                )}
-              </div>
+            </div>
+            {/* Actions */}
+            <div className={hstack({ gap: 3, pt: 2 })}>
+              {data.status === VhsStatusEnum.enum.available && (
+                <RentalCreateForm vhs={data} />
+              )}
             </div>
           </section>
         );
