@@ -157,6 +157,23 @@ class VhsController
         return new JsonResponse(null, 204);
     }
 
+    // -------- MARK AS LOST --------
+    #[Route('/{id}/lost', name: 'vhs_mark_lost', methods: ['PATCH'])]
+    public function markAsLost(string $id): JsonResponse
+    {
+        $vhs = $this->vhsRepo->find($id);
+        if (!$vhs) {
+            return new JsonResponse(['error' => 'Not found'], 404);
+        }
+
+        if ($vhs->getStatus() !== VhsStatus::Lost) {
+            $vhs->setStatus(VhsStatus::Lost);
+            $this->em->flush();
+        }
+
+        return new JsonResponse($vhs->toArray(), 200);
+    }
+
     // -------- Helpers --------
 
     private function formatViolations(\Traversable $violations): array

@@ -7,6 +7,7 @@ import { css, cva } from '@styled-system/css';
 import { hstack, vstack } from '@styled-system/patterns';
 import { VhsStatusEnum } from '@/models';
 import RentalCreateForm from '@/components/RentalCreateForm';
+import VhsMarkLostButton from '@/components/VhsMarkLostButton';
 
 type Props = { id: string };
 
@@ -168,20 +169,11 @@ const VhsDetails = ({ id }: Props) => {
 
               {/* Actions */}
               <div className={hstack({ gap: 3, pt: 2 })}>
+                {data.status !== VhsStatusEnum.enum.lost && (
+                  <VhsMarkLostButton vhsId={data.id} />
+                )}
                 {data.status === VhsStatusEnum.enum.available && (
                   <RentalCreateForm vhs={data} />
-                )}
-
-                {data.status === VhsStatusEnum.enum.lost && (
-                  <span
-                    className={css({
-                      color: 'red.400',
-                      fontStyle: 'italic',
-                      fontSize: 'sm',
-                    })}
-                  >
-                    Cassette perdue — non disponible
-                  </span>
                 )}
               </div>
             </div>
