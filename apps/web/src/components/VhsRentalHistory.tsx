@@ -67,6 +67,7 @@ const VhsRentalHistory = ({ vhsId }: Props) => {
               })}
             >
               {data.map((rental) => {
+                const overdue = !rental.returnedAt && new Date(rental.dueDate);
                 const rentedAt = format(
                   new Date(rental.rentedAt),
                   'dd MMM yyyy',
@@ -126,6 +127,7 @@ const VhsRentalHistory = ({ vhsId }: Props) => {
                       })}
                     >
                       {returnedAt ? `Rendue le ${returnedAt}` : `Non rendue`}
+                      {overdue ? ' (en retard)' : ''}
                     </span>
                   </div>
                 );
