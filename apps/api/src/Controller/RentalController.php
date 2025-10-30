@@ -57,7 +57,10 @@ class RentalController extends AbstractController
         $rental->setCustomer($customer);
         $rental->setVhs($vhs);
 
+        $vhs->setStatus(\App\Enum\VhsStatus::Rented);
+
         $this->em->persist($rental);
+        $this->em->persist($vhs);
         $this->em->flush();
 
         return new JsonResponse($rental->toArray(), 201);

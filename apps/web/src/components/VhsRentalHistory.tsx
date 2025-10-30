@@ -12,6 +12,8 @@ type Props = {
 };
 
 const VhsRentalHistory = ({ vhsId }: Props) => {
+  const now = new Date();
+
   return (
     <section
       className={vstack({
@@ -68,7 +70,8 @@ const VhsRentalHistory = ({ vhsId }: Props) => {
               })}
             >
               {data.map((rental) => {
-                const overdue = !rental.returnedAt && new Date(rental.dueDate);
+                const overdue =
+                  !rental.returnedAt && new Date(rental.dueDate) < now;
                 const rentedAt = format(
                   new Date(rental.rentedAt),
                   'dd MMM yyyy',
