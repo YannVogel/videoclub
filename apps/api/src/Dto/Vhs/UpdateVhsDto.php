@@ -20,6 +20,6 @@ class UpdateVhsDto
     #[Assert\Url]
     public ?string $coverUrl = null;
 
-    #[Assert\Choice(choices: ['available', 'rented', 'overdue', 'lost'])]
+    #[Assert\Choice(choices: ['available', 'rented', 'lost'])]
     public ?string $status = null;
 }

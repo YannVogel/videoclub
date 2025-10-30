@@ -28,7 +28,7 @@ class VhsController
     #[Route('', name: 'vhs_index', methods: ['GET'])]
     public function index(Request $request): JsonResponse
     {
-        $status = $request->query->get('status'); // available|rented|overdue|lost
+        $status = $request->query->get('status'); // available|rented|lost
         $genre  = $request->query->get('genre');  // action|adventure|...
         $q      = $request->query->get('q');      // search in title
 

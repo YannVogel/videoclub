@@ -58,6 +58,7 @@ class RentalRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('r')
             ->andWhere('r.dueDate < :now')
+            ->andWhere('r.returnedAt IS NULL')
             ->setParameter('now', new \DateTimeImmutable())
             ->orderBy('r.dueDate', 'ASC')
             ->getQuery()
