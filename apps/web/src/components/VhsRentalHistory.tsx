@@ -5,6 +5,7 @@ import { css } from '@styled-system/css';
 import { hstack, vstack } from '@styled-system/patterns';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import RentalReturnButton from '@/components/RentalReturnButton';
 
 type Props = {
   vhsId: string;
@@ -114,6 +115,10 @@ const VhsRentalHistory = ({ vhsId }: Props) => {
                         Loué le {rentedAt} — à rendre pour le {dueDate}
                       </p>
                     </div>
+
+                    {!rental.returnedAt && (
+                      <RentalReturnButton rentalId={rental.id} />
+                    )}
 
                     <span
                       className={css({
