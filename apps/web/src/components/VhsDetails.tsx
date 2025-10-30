@@ -6,6 +6,7 @@ import { statusLabel } from '@/utils';
 import { css, cva } from '@styled-system/css';
 import { hstack, vstack } from '@styled-system/patterns';
 import { VhsStatusEnum } from '@/models';
+import RentalCreateForm from '@/components/RentalCreateForm';
 
 type Props = { id: string };
 
@@ -168,26 +169,7 @@ const VhsDetails = ({ id }: Props) => {
               {/* Actions */}
               <div className={hstack({ gap: 3, pt: 2 })}>
                 {data.status === VhsStatusEnum.enum.available && (
-                  <button
-                    className={css({
-                      px: 5,
-                      py: 2,
-                      rounded: 'md',
-                      fontWeight: 'semibold',
-                      bg: 'green.600',
-                      color: 'white',
-                      textShadow:
-                        '0 0 8px rgba(34,197,94,0.25), 0 0 15px rgba(34,197,94,0.25)',
-                      _hover: {
-                        bg: 'green.500',
-                        transform: 'translateY(-2px)',
-                      },
-                      transition:
-                        'background 150ms ease, transform 150ms ease, box-shadow 150ms ease',
-                    })}
-                  >
-                    Enregistrer une location
-                  </button>
+                  <RentalCreateForm vhs={data} />
                 )}
 
                 {data.status === VhsStatusEnum.enum.lost && (
