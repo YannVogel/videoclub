@@ -190,29 +190,6 @@ const VhsDetails = ({ id }: Props) => {
                   </button>
                 )}
 
-                {data.status === VhsStatusEnum.enum.rented && (
-                  <button
-                    className={css({
-                      px: 5,
-                      py: 2,
-                      rounded: 'md',
-                      fontWeight: 'semibold',
-                      bg: 'blue.600',
-                      color: 'white',
-                      textShadow:
-                        '0 0 8px rgba(59,130,246,0.25), 0 0 15px rgba(59,130,246,0.25)',
-                      _hover: {
-                        bg: 'blue.500',
-                        transform: 'translateY(-2px)',
-                      },
-                      transition:
-                        'background 150ms ease, transform 150ms ease, box-shadow 150ms ease',
-                    })}
-                  >
-                    Enregistrer un retour
-                  </button>
-                )}
-
                 {data.status === VhsStatusEnum.enum.lost && (
                   <span
                     className={css({

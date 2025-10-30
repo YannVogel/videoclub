@@ -112,4 +112,46 @@ class RentalController extends AbstractController
         $rentals = $this->rentalRepo->findOverdue();
         return $this->json(array_map(fn (Rental $r) => $r->toArray(), $rentals));
     }
+
+    // -------- RETURN (RETOUR DE CASSETTE) --------
+    #[Route('/{id}/return', name: 'rental_return', methods: ['PATCH'])]
+    public function returnRental(string $id): JsonResponse
+    {
+        try {
+            $uuid = new Uuid($id);
+        } catch (\InvalidArgumentException) {
+            return new JsonResponse(['error' => 'Invalid rental ID'], 400);
+        }
+
+        $rental = $this->rentalRepo->find($uuid);
+
+        if (!$rental) {
+            return new JsonResponse(['error' => 'Rental not found'], 404);
+        }
+
+        if ($rental->getReturnedAt() !== null) {
+            return new JsonResponse(['error' => 'This rental has already been returned'], 400);
+        }
+
+        $vhs = $rental->getVhs();
+
+        if (!$vhs) {
+            return new JsonResponse(['error' => 'Associated VHS not found'], 404);
+        }
+
+        // Mettre à jour les champs
+        $rental->setReturnedAt(new \DateTimeImmutable());
+        $vhs->setStatus(\App\Enum\VhsStatus::Available);
+
+        $this->em->persist($rental);
+        $this->em->persist($vhs);
+        $this->em->flush();
+
+        return $this->json([
+            'message' => 'VHS successfully returned.',
+            'rental' => $rental->toArray(),
+            'vhs' => $vhs->toArray(),
+        ]);
+    }
+
 }
