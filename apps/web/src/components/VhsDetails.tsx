@@ -190,8 +190,7 @@ const VhsDetails = ({ id }: Props) => {
                   </button>
                 )}
 
-                {(data.status === VhsStatusEnum.enum.rented ||
-                  data.status === VhsStatusEnum.enum.overdue) && (
+                {data.status === VhsStatusEnum.enum.rented && (
                   <button
                     className={css({
                       px: 5,

@@ -23,7 +23,7 @@ class CreateVhsDto
     #[Assert\Url]
     private string $coverUrl;
 
-    #[Assert\Choice(choices: ['available', 'rented', 'overdue', 'lost'])]
+    #[Assert\Choice(choices: ['available', 'rented', 'lost'])]
     private string $status = 'available';
 
     // ---- Getters ----
