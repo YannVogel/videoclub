@@ -50,60 +50,91 @@ const VhsCreatePage = () => {
   };
 
   return (
-    <main className={css({ p: 6 })}>
+    <main
+      className={css({
+        p: 8,
+        maxW: '900px',
+        mx: 'auto',
+        fontFamily: "'IBM Plex Sans', sans-serif",
+        color: '#e0e0e0',
+      })}
+    >
       <h1
         className={css({
+          fontFamily: "'Orbitron', sans-serif",
           fontSize: '3xl',
           fontWeight: 'bold',
+          textTransform: 'uppercase',
+          mb: 8,
           background:
-            'linear-gradient(90deg, #ff4df0, #00e0ff, #ffe38a, #ff4df0)',
+            'linear-gradient(90deg, #ff2e63, #66fcf1, #ffe38a, #ff2e63)',
           backgroundClip: 'text',
           color: 'transparent',
+          textShadow:
+            '0 0 8px rgba(255,46,99,0.45), 0 0 16px rgba(102,252,241,0.4)',
         })}
       >
-        Ajouter une VHS
+        🎬 Ajouter une VHS
       </h1>
 
-      {/* Champ de recherche */}
-      <div className={hstack({ gap: 3, alignItems: 'center' })}>
+      {/* Barre de recherche */}
+      <div
+        className={hstack({
+          gap: 3,
+          alignItems: 'center',
+          mb: 6,
+        })}
+      >
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Rechercher un film..."
           className={css({
-            p: 2,
-            w: '300px',
+            p: 3,
+            w: 'full',
+            maxW: '400px',
             rounded: 'md',
-            bg: 'gray.900',
-            border: '1px solid gray',
+            border: '1px solid rgba(255,255,255,0.15)',
+            bg: 'rgba(20,20,25,0.8)',
             color: 'white',
+            outline: 'none',
+            fontSize: 'md',
+            transition: 'all 0.2s ease',
+            _focus: {
+              borderColor: '#66fcf1',
+              boxShadow: '0 0 10px rgba(102,252,241,0.3)',
+            },
           })}
         />
         <button
           onClick={handleSearch}
           className={css({
-            bg: 'blue.600',
-            px: 4,
-            py: 2,
+            px: 5,
+            py: 3,
             rounded: 'md',
-            color: 'white',
             fontWeight: 'semibold',
-            _hover: { bg: 'blue.500' },
+            color: 'black',
+            bg: 'linear-gradient(90deg, #66fcf1 0%, #ff2e63 100%)',
+            boxShadow:
+              '0 0 8px rgba(102,252,241,0.4), 0 0 16px rgba(255,46,99,0.4)',
+            transition: 'transform 150ms ease, filter 150ms ease',
+            _hover: {
+              transform: 'translateY(-2px)',
+              filter: 'brightness(1.2)',
+            },
           })}
         >
           Rechercher
         </button>
       </div>
 
-      {/* Résultats */}
       <MovieSearchResults
         results={results}
         selected={selected}
         onSelect={handleSelect}
       />
 
-      {/* Formulaire */}
       {selected && (
         <VhsCreate>
           {({ mutate, isPending, error }) => (
@@ -123,85 +154,184 @@ const VhsCreatePage = () => {
                 );
               }}
               className={vstack({
-                gap: 4,
-                alignItems: 'flex-start',
-                bg: 'gray.900',
-                p: 6,
-                rounded: 'xl',
-                borderWidth: 1,
-                borderColor: 'gray.800',
+                gap: 6,
+                alignItems: 'stretch',
                 w: 'full',
                 maxW: 'lg',
+                mx: 'auto',
+                p: 8,
+                rounded: '2xl',
+                border: '1px solid rgba(255,255,255,0.1)',
+                bg: 'linear-gradient(180deg, rgba(10,10,15,0.9), rgba(15,15,20,0.95))',
+                boxShadow:
+                  '0 0 25px rgba(102,252,241,0.08), 0 0 45px rgba(255,46,99,0.08)',
+                position: 'relative',
+                overflow: 'hidden',
+                _before: {
+                  content: '""',
+                  position: 'absolute',
+                  inset: 0,
+                  background:
+                    'repeating-linear-gradient(to bottom, rgba(255,255,255,0.015) 0, rgba(255,255,255,0.015) 1px, transparent 2px, transparent 3px)',
+                  pointerEvents: 'none',
+                  zIndex: 1,
+                },
               })}
             >
-              <img
-                src={form.coverUrl}
-                alt={form.title}
-                className={css({ w: '200px', h: 'auto', borderRadius: 'md' })}
-              />
-              <div>
-                <label className={css({ display: 'block', mb: 1 })}>
-                  Titre :
-                </label>
-                <input
-                  value={form.title}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, title: e.target.value }))
-                  }
+              {/* Cover preview */}
+              <div
+                className={hstack({
+                  gap: 5,
+                  justify: 'flex-start',
+                  alignItems: 'center',
+                })}
+              >
+                <img
+                  src={form.coverUrl}
+                  alt={form.title}
                   className={css({
-                    p: 2,
-                    w: 'full',
-                    rounded: 'md',
-                    bg: 'gray.800',
-                    borderWidth: 1,
-                    borderColor: 'gray.700',
-                    color: 'white',
+                    w: '160px',
+                    h: 'auto',
+                    borderRadius: 'md',
+                    border: '1px solid rgba(255,255,255,0.15)',
+                    boxShadow:
+                      '0 0 10px rgba(255,46,99,0.4), 0 0 18px rgba(102,252,241,0.25)',
                   })}
                 />
-              </div>
-
-              <div>
-                <label className={css({ display: 'block', mb: 1 })}>
-                  Synopsis :
-                </label>
-                <textarea
-                  value={form.synopsis}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, synopsis: e.target.value }))
-                  }
-                  rows={5}
+                <div
                   className={css({
-                    p: 2,
-                    w: 'full',
-                    rounded: 'md',
-                    bg: 'gray.800',
-                    borderWidth: 1,
-                    borderColor: 'gray.700',
-                    color: 'white',
+                    fontSize: 'sm',
+                    color: 'gray.400',
+                    maxW: '60%',
                   })}
-                />
+                >
+                  <p>
+                    <strong>Astuce :</strong> vérifiez les infos avant de créer
+                    la VHS.
+                  </p>
+                  <p>
+                    Vous pouvez encore modifier le titre ou le synopsis
+                    ci-dessous.
+                  </p>
+                </div>
               </div>
 
+              {/* Form fields */}
+              <div className={vstack({ gap: 5, w: 'full', zIndex: 2 })}>
+                <div>
+                  <label
+                    className={css({
+                      display: 'block',
+                      mb: 2,
+                      fontFamily: "'Orbitron', sans-serif",
+                      fontSize: 'sm',
+                      color: '#66fcf1',
+                      letterSpacing: 'wide',
+                      textTransform: 'uppercase',
+                    })}
+                  >
+                    Titre
+                  </label>
+                  <input
+                    value={form.title}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, title: e.target.value }))
+                    }
+                    className={css({
+                      p: 3,
+                      w: 'full',
+                      rounded: 'md',
+                      bg: 'rgba(25,25,30,0.95)',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      color: 'white',
+                      fontWeight: 'medium',
+                      transition: 'all 0.2s ease',
+                      _focus: {
+                        borderColor: '#ff2e63',
+                        boxShadow: '0 0 10px rgba(255,46,99,0.3)',
+                      },
+                    })}
+                  />
+                </div>
+
+                <div>
+                  <label
+                    className={css({
+                      display: 'block',
+                      mb: 2,
+                      fontFamily: "'Orbitron', sans-serif",
+                      fontSize: 'sm',
+                      color: '#66fcf1',
+                      textTransform: 'uppercase',
+                    })}
+                  >
+                    Synopsis
+                  </label>
+                  <textarea
+                    value={form.synopsis}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, synopsis: e.target.value }))
+                    }
+                    rows={5}
+                    className={css({
+                      p: 3,
+                      w: 'full',
+                      rounded: 'md',
+                      bg: 'rgba(25,25,30,0.95)',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      color: 'white',
+                      lineHeight: 'tall',
+                      fontSize: 'sm',
+                      transition: 'all 0.2s ease',
+                      _focus: {
+                        borderColor: '#66fcf1',
+                        boxShadow: '0 0 10px rgba(102,252,241,0.3)',
+                      },
+                    })}
+                  />
+                </div>
+              </div>
+
+              {/* Submit button */}
               <button
                 type="submit"
                 disabled={isPending}
                 className={css({
-                  px: 6,
-                  py: 2,
+                  alignSelf: 'center',
+                  mt: 4,
+                  px: 8,
+                  py: 3,
+                  cursor: 'pointer',
                   rounded: 'md',
-                  fontWeight: 'semibold',
-                  color: 'white',
-                  bg: 'blue.600',
-                  _hover: { bg: 'blue.500' },
-                  _disabled: { opacity: 0.6 },
+                  fontFamily: "'Orbitron', sans-serif",
+                  fontWeight: 'bold',
+                  textTransform: 'uppercase',
+                  color: 'black',
+                  letterSpacing: 'wide',
+                  bg: 'linear-gradient(90deg, #66fcf1 0%, #ff2e63 100%)',
+                  boxShadow:
+                    '0 0 15px rgba(102,252,241,0.6), 0 0 30px rgba(255,46,99,0.6)',
+                  transition: 'transform 200ms ease, filter 150ms ease',
+                  _hover: {
+                    transform: 'translateY(-3px)',
+                    filter: 'brightness(1.25)',
+                  },
+                  _disabled: { opacity: 0.5 },
                 })}
               >
-                {isPending ? 'Création...' : 'Créer la VHS'}
+                {isPending ? '⏳ Création...' : '▶ Créer la VHS'}
               </button>
 
               {!!error && (
-                <p className={css({ color: 'red.400' })}>
-                  Une erreur est survenue.
+                <p
+                  className={css({
+                    color: '#ff2e63',
+                    fontWeight: 'medium',
+                    textAlign: 'center',
+                    mt: 3,
+                  })}
+                >
+                  ⚠️ Une erreur est survenue.
                 </p>
               )}
             </form>

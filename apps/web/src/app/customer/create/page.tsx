@@ -11,7 +11,6 @@ import { useRouter } from 'next/navigation';
 
 const CreateCustomerPage = () => {
   const schema = CustomerSchema.omit({ id: true, createdAt: true });
-
   const {
     register,
     handleSubmit,
@@ -19,23 +18,40 @@ const CreateCustomerPage = () => {
   } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
   });
-
   const router = useRouter();
 
   return (
     <main
-      className={vstack({ p: 6, alignItems: 'flex-start', gap: 4, w: 'full' })}
+      className={vstack({
+        p: 8,
+        alignItems: 'flex-start',
+        gap: 8,
+        w: 'full',
+        position: 'relative',
+        overflow: 'hidden',
+        _before: {
+          content: '""',
+          position: 'absolute',
+          inset: 0,
+          background:
+            'repeating-linear-gradient(to bottom, rgba(255,255,255,0.015) 0, rgba(255,255,255,0.015) 1px, transparent 2px, transparent 3px)',
+          pointerEvents: 'none',
+        },
+      })}
     >
       <h1
         className={css({
-          fontSize: '3xl',
+          fontFamily: "'Orbitron', sans-serif",
+          fontSize: { base: '2xl', md: '3xl' },
           fontWeight: 'bold',
+          textTransform: 'uppercase',
           background:
-            'linear-gradient(90deg, #ff4df0, #00e0ff, #ffe38a, #ff4df0)',
+            'linear-gradient(90deg, #ff2e63, #66fcf1, #ffe38a, #ff2e63)',
           backgroundClip: 'text',
           color: 'transparent',
           textShadow:
-            '0 0 6px rgba(255,77,240,0.35), 0 0 10px rgba(0,224,255,0.25)',
+            '0 0 10px rgba(255,46,99,0.4), 0 0 20px rgba(102,252,241,0.3)',
+          letterSpacing: '0.05em',
         })}
       >
         Ajouter un client
@@ -46,157 +62,119 @@ const CreateCustomerPage = () => {
           <form
             onSubmit={handleSubmit((data) => {
               mutate(data, {
-                onSuccess: () => {
-                  router.push('/customer');
-                },
+                onSuccess: () => router.push('/customer'),
               });
             })}
             className={vstack({
-              gap: 4,
+              gap: 6,
               alignItems: 'flex-start',
-              bg: 'gray.900',
-              p: 6,
+              bg: 'rgba(15,15,20,0.85)',
+              p: 8,
               rounded: 'xl',
-              borderWidth: 1,
-              borderColor: 'gray.800',
-              w: 'full',
+              border: '1px solid rgba(255,255,255,0.08)',
+              boxShadow:
+                '0 0 20px rgba(255,46,99,0.1), 0 0 40px rgba(102,252,241,0.08)',
               maxW: 'lg',
-              shadow: 'md',
+              w: 'full',
             })}
           >
-            <div className={vstack({ alignItems: 'flex-start', w: 'full' })}>
-              <label
-                htmlFor="firstName"
-                className={css({ fontWeight: 'semibold' })}
+            {[
+              { id: 'firstName', label: 'Prénom' },
+              { id: 'lastName', label: 'Nom' },
+              { id: 'email', label: 'Email', type: 'email' },
+              { id: 'phone', label: 'Téléphone' },
+            ].map(({ id, label, type }) => (
+              <div
+                key={id}
+                className={vstack({ alignItems: 'flex-start', w: 'full' })}
               >
-                Prénom
-              </label>
-              <input
-                id="firstName"
-                {...register('firstName')}
-                className={css({
-                  w: 'full',
-                  p: 2,
-                  rounded: 'md',
-                  bg: 'gray.800',
-                  borderWidth: 1,
-                  borderColor: 'gray.700',
-                  color: 'white',
-                  _focus: { borderColor: 'blue.400', outline: 'none' },
-                })}
-              />
-              {errors.firstName && (
-                <p className={css({ color: 'red.400', fontSize: 'sm' })}>
-                  {errors.firstName.message}
-                </p>
-              )}
-            </div>
-
-            <div className={vstack({ alignItems: 'flex-start', w: 'full' })}>
-              <label
-                htmlFor="lastName"
-                className={css({ fontWeight: 'semibold' })}
-              >
-                Nom
-              </label>
-              <input
-                id="lastName"
-                {...register('lastName')}
-                className={css({
-                  w: 'full',
-                  p: 2,
-                  rounded: 'md',
-                  bg: 'gray.800',
-                  borderWidth: 1,
-                  borderColor: 'gray.700',
-                  color: 'white',
-                  _focus: { borderColor: 'blue.400', outline: 'none' },
-                })}
-              />
-              {errors.lastName && (
-                <p className={css({ color: 'red.400', fontSize: 'sm' })}>
-                  {errors.lastName.message}
-                </p>
-              )}
-            </div>
-
-            <div className={vstack({ alignItems: 'flex-start', w: 'full' })}>
-              <label
-                htmlFor="email"
-                className={css({ fontWeight: 'semibold' })}
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                {...register('email')}
-                className={css({
-                  w: 'full',
-                  p: 2,
-                  rounded: 'md',
-                  bg: 'gray.800',
-                  borderWidth: 1,
-                  borderColor: 'gray.700',
-                  color: 'white',
-                  _focus: { borderColor: 'blue.400', outline: 'none' },
-                })}
-              />
-              {errors.email && (
-                <p className={css({ color: 'red.400', fontSize: 'sm' })}>
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
-
-            <div className={vstack({ alignItems: 'flex-start', w: 'full' })}>
-              <label
-                htmlFor="phone"
-                className={css({ fontWeight: 'semibold' })}
-              >
-                Téléphone
-              </label>
-              <input
-                id="phone"
-                {...register('phone')}
-                className={css({
-                  w: 'full',
-                  p: 2,
-                  rounded: 'md',
-                  bg: 'gray.800',
-                  borderWidth: 1,
-                  borderColor: 'gray.700',
-                  color: 'white',
-                  _focus: { borderColor: 'blue.400', outline: 'none' },
-                })}
-              />
-              {errors.phone && (
-                <p className={css({ color: 'red.400', fontSize: 'sm' })}>
-                  {errors.phone.message}
-                </p>
-              )}
-            </div>
+                <label
+                  htmlFor={id}
+                  className={css({
+                    color: '#66fcf1',
+                    fontWeight: 'semibold',
+                    textTransform: 'uppercase',
+                    fontSize: 'sm',
+                    letterSpacing: 'wide',
+                    mb: 1,
+                  })}
+                >
+                  {label}
+                </label>
+                <input
+                  id={id}
+                  type={type ?? 'text'}
+                  {...register(id as keyof z.infer<typeof schema>)}
+                  className={css({
+                    w: 'full',
+                    p: 3,
+                    rounded: 'md',
+                    bg: 'rgba(30,30,35,0.9)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    color: 'white',
+                    transition: 'all 0.2s ease',
+                    _focus: {
+                      borderColor: '#66fcf1',
+                      boxShadow: '0 0 10px rgba(102,252,241,0.3)',
+                    },
+                  })}
+                />
+                {errors[id as keyof z.infer<typeof schema>] && (
+                  <p
+                    className={css({
+                      color: '#ff2e63',
+                      fontSize: 'sm',
+                      mt: 1,
+                      textShadow: '0 0 6px rgba(255,46,99,0.4)',
+                    })}
+                  >
+                    {errors[
+                      id as keyof z.infer<typeof schema>
+                    ]?.message?.toString()}
+                  </p>
+                )}
+              </div>
+            ))}
 
             <button
               type="submit"
               disabled={isPending}
               className={css({
-                px: 6,
-                py: 2,
+                alignSelf: 'center',
+                mt: 4,
+                px: 8,
+                py: 3,
                 rounded: 'md',
-                fontWeight: 'semibold',
-                color: 'white',
-                bg: 'blue.600',
-                textShadow:
-                  '0 0 8px rgba(59,130,246,0.35), 0 0 12px rgba(59,130,246,0.25)',
-                _hover: { bg: 'blue.500', transform: 'translateY(-2px)' },
-                _disabled: { opacity: 0.6, cursor: 'not-allowed' },
-                transition:
-                  'background 150ms ease, transform 150ms ease, opacity 120ms ease',
+                fontFamily: "'Orbitron', sans-serif",
+                fontWeight: 'bold',
+                textTransform: 'uppercase',
+                color: 'black',
+                bg: 'linear-gradient(90deg, #66fcf1 0%, #ff2e63 100%)',
+                boxShadow:
+                  '0 0 12px rgba(102,252,241,0.5), 0 0 24px rgba(255,46,99,0.5)',
+                textShadow: '0 0 6px rgba(0,0,0,0.4)',
+                transition: 'transform 150ms ease, filter 150ms ease',
+                _hover: {
+                  transform: 'translateY(-3px)',
+                  filter: 'brightness(1.2)',
+                },
+                _disabled: { opacity: 0.5, cursor: 'not-allowed' },
               })}
             >
               {isPending ? 'Enregistrement…' : 'Créer le client'}
             </button>
+
+            {!!error && (
+              <p
+                className={css({
+                  color: '#ff2e63',
+                  fontWeight: 'medium',
+                  textShadow: '0 0 6px rgba(255,46,99,0.4)',
+                })}
+              >
+                ⚠️ Une erreur est survenue.
+              </p>
+            )}
           </form>
         )}
       </CustomerCreate>

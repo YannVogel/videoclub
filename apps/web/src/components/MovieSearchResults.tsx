@@ -26,7 +26,7 @@ export const MovieSearchResults = ({ results, onSelect, selected }: Props) => {
       selectionMode="none"
       orientation="horizontal"
       className={grid({
-        gap: 5,
+        gap: 6,
         mt: 6,
         gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
         justifyItems: 'center',
@@ -50,21 +50,20 @@ export const MovieSearchResults = ({ results, onSelect, selected }: Props) => {
               alignItems: 'center',
               p: 3,
               rounded: 'xl',
-              borderWidth: 1,
-              borderColor: 'gray.700',
-              bg: 'rgba(20, 20, 20, 0.65)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              bg: 'rgba(15,15,20,0.75)',
               boxShadow:
-                '0 0 10px rgba(255, 77, 240, 0.15), 0 0 20px rgba(0, 224, 255, 0.08)',
+                '0 0 10px rgba(255,46,99,0.25), 0 0 20px rgba(102,252,241,0.15)',
               transition:
                 'transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease',
               _hover: {
                 transform: 'translateY(-3px)',
-                bg: 'rgba(40, 40, 40, 0.8)',
+                bg: 'rgba(30,30,40,0.85)',
                 boxShadow:
-                  '0 0 14px rgba(255, 77, 240, 0.4), 0 0 28px rgba(0, 224, 255, 0.25)',
+                  '0 0 14px rgba(255,46,99,0.5), 0 0 28px rgba(102,252,241,0.4)',
               },
               _focusVisible: {
-                outline: '2px solid #00e0ff',
+                outline: '2px solid #66fcf1',
                 outlineOffset: '3px',
               },
             })}
@@ -80,10 +79,11 @@ export const MovieSearchResults = ({ results, onSelect, selected }: Props) => {
               alt=""
               className={css({
                 w: 'full',
-                h: '220px',
+                h: '240px',
                 objectFit: 'cover',
                 borderRadius: 'md',
                 mb: 3,
+                border: '1px solid rgba(255,255,255,0.1)',
               })}
             />
             <h3
@@ -94,6 +94,8 @@ export const MovieSearchResults = ({ results, onSelect, selected }: Props) => {
                 color: 'white',
                 mb: 1,
                 lineHeight: 'short',
+                textShadow:
+                  '0 0 8px rgba(255,46,99,0.35), 0 0 16px rgba(102,252,241,0.3)',
               })}
             >
               {movie.Title}
@@ -101,9 +103,9 @@ export const MovieSearchResults = ({ results, onSelect, selected }: Props) => {
             <span
               className={css({
                 fontSize: 'sm',
-                color: 'gray.300',
+                color: '#66fcf1',
                 textShadow:
-                  '0 0 4px rgba(255,77,240,0.3), 0 0 6px rgba(0,224,255,0.25)',
+                  '0 0 6px rgba(102,252,241,0.5), 0 0 12px rgba(255,46,99,0.25)',
               })}
             >
               {movie.Year}
