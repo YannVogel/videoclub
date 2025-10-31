@@ -49,6 +49,15 @@ class VhsController
         return new JsonResponse($data, 200, ['X-Total-Count' => (string) count($data)]);
     }
 
+    // -------- READ: rented (non disponibles) --------
+    #[Route('/rented', name: 'vhs_rented', methods: ['GET'])]
+    public function rented(): JsonResponse
+    {
+        $results = $this->vhsRepo->findByStatusNot(VhsStatus::Available);
+        $data = array_map(fn (Vhs $v) => $v->toArray(), $results);
+        return new JsonResponse($data, 200);
+    }
+
     // -------- READ: detail --------
     #[Route('/{id}', name: 'vhs_show', methods: ['GET'])]
     public function show(string $id): JsonResponse

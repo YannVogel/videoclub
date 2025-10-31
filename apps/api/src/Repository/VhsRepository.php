@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Vhs;
+use App\Enum\VhsStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -35,4 +36,15 @@ class VhsRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function findByStatusNot(VhsStatus $status): array
+    {
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.status != :status')
+            ->setParameter('status', $status)
+            ->orderBy('v.title', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 }
